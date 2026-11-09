@@ -1,0 +1,8 @@
+# Small inference image: ONNX Runtime + FastAPI only. No scikit-learn or training code.
+FROM python:3.11-slim
+WORKDIR /app
+COPY requirements-api.txt .
+RUN pip install --no-cache-dir -r requirements-api.txt
+COPY wearwatch/__init__.py wearwatch/features.py wearwatch/alerts.py wearwatch/service.py wearwatch/api.py wearwatch/
+EXPOSE 8000
+CMD ["uvicorn", "wearwatch.api:app", "--host", "0.0.0.0", "--port", "8000"]
